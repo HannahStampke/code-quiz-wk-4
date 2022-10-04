@@ -38,9 +38,6 @@ Steps to access and use the Code Quiz
 - Follow the prompts.
 
 
-# By Hannah Stampke
-
-
 # Applications
 - HTML
 - JavaScript
