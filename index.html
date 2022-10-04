@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./style.css"/>
-  <title>Code Quiz</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./Assets/reset.css"/>
+        <link rel="stylesheet" href="./Assets/style.css"/>
+        <title>Code Quiz</title>
+    </head>
 
-<body>
-    <header>
-      <h3><a href="#" id="highscores"></a></h3>
-      <h3 id="timer"></h3>
-    </header>
-    <main>
-        <h2 id="heading"></h2>
-        <h3 id="subheading"></h3>
-        <ul class="options"></ul>
-        <p id="answer"></p>
-        <button id="start-button">Start!</button>
-      </div>
-      <div class="content hide" id="form">
-        <form method="POST">
-          <label for="initials">Enter your name</label>
-          <input type="text" name="initials" id="initials" required />
-          <button id="submit-button">Submit!</button>
-        </form>
-      </div>
-      <div class="content hide" id="results">
-        <ul id="results-table"></ul>
-        <div class="highscore-buttons">
-          <button id="back-button">Back</button>
-          <button id="clear-button">Clear</button>
-        </div>
-      </div>
-    </main>
-
-    <script src="./assets/js/script.js"></script>
-  </body>
+    <body>
+        <header>
+            <h3><a href="#" id="highscores"></a></h3>
+            <h3 id="timer"></h3>
+        </header>
+        <main>
+            <div>
+                <h2 id="heading"></h2>
+                <h3 id="subheading"></h3>
+                <ul class="options"></ul>
+                <p id="answer"></p>
+                <button id="start-button">Start!</button>
+            </div>
+            <div class="content hide" id="form">
+                <form method="POST">
+                <label for="name">Enter your name</label>
+                <input type="text" name="name" id="name" required />
+                <button id="submit-button">Submit!</button>
+                </form>
+            </div>
+            <div class="content hide" id="results">
+                <ul id="results-table"></ul>
+                <div class="highscore-buttons">
+                <button id="back-button">Back</button>
+                <button id="clear-button">Clear</button>
+            </div>
+            </div>
+        </main>
+        <script src="./Assets/java.js"></script>
+    </body>
 </html>
