@@ -20,6 +20,10 @@ SO THAT I can gauge my progress compared to my peers
 
 Code Quiz is a multiple choice quiz that allows the user to test their knowledge of basic code languages. Get competitive and keep track of the High Score section, or just enjoy the race against the clock!
 
+## Issues
+
+The styling seems to not work once deployed to GitHub, even though the code is the same.
+
 # Table of Contents
 
 - [Usage](#usage)
