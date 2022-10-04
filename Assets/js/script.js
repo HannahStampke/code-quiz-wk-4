@@ -1,340 +1,242 @@
-// buttons
-var startButton = document.querySelector("#start-button");
-var submitButton = document.querySelector("#submit-button");
-var backButton = document.querySelector("#back-button");
-var clearButton = document.querySelector("#clear-button");
+var questions = [{
+  question: "What 'end' is REACT?",
+  choices: ["Front-end", "Back-end", "Rear-end", "Right-end"],
+  answer: "Front-end"
+},
 
-// timer text
-var timer = document.querySelector("#timer");
+{
+  question: "Which of the following is NOT a coding language?",
+  choices: ["CSS", "Javascript", "D++", "Python", ],
+  answer: "D++"
+},
 
-// Answers list
-var options = document.querySelector(".options");
+{
+  question: "What language would you use to make a web page PRETTY?",
+  choices: ["HTML", "CSS", "Javascript", "Cucumber Plus"],
+  answer: "CSS"
+},
 
-// Highscore
-var viewHighscores = document.querySelector("#view-highscores");
+{
+  question: "What does HTML stand for?",
+  choices: ["Hardform Text Model Language", "Heaps Trash Made Lists", "Heading Template Modelled Languages", "Hypertext Markup Language"],
+  answer: "Hypertext Markup Language"
+},
 
-// text fields selectors
-var heading = document.querySelector("#heading");
-var subheading = document.querySelector("#subheading");
-var answerFeedback = document.querySelector("#answer");
-var formInput = document.querySelector("#form");
-var resultsDisplay = document.querySelector("#results");
-var nameInput = document.querySelector("#name");
-var resultsTable = document.querySelector("#results-table");
-
-// clear lists
-var optionLi = [...Array(4)];
-var optionA = [...Array(4)];
-
-// clear highscores
-var highscores = [];
-var liEl = [];
-var lastQuestion = [];
-
-//check and counter variables
-var finalScore;
-var check;
-var doneCount;
-var currentQuestion;
-var stopTimer;
-
-//questions
-var question1 = {
-  question: "Is REACT front end or back end?",
-  option0: "front end",
-  option1: "back end",
-  rightOption: "option0",
-};
-var question2 = {
-  question: "Which of the following is NOT a coding language:",
-  option0: "Swift",
-  option1: "Javascript",
-  option2: "D++",
-  option3: "Python",
-  rightOption: "option2",
-};
-var question3 = {
-  question: "What language would you use to make a webpge PRETTY?",
-  option0: "HTML",
-  option1:"CSS",
-  option2: "Python",
-  option3: "Cucumber Plus",
-  rightOption: "option1",
-};
-var question4 = {
-  question: 'What does HTML stand for?',
-  option0: "Hypertext Markup Language",
-  option1: "Hardform Text Model Language",
-  option2: "Heaps Trash Made Lists",
-  option3: "Heading Template Modelled Languages",
-  rightOption: "option0",
-};
-var question5 = {
+{
   question: "What file type is a README?",
-  option0: ".pdf",
-  option1: ".indd",
-  option2: ".css",
-  option3: ".md",
-  rightOption: "option3",
+  choices: [".md", ".css", ".pdf", ".rm"],
+  answer: ".md"
+}
+
+]
+
+// Variables
+var startContainer = document.getElementById("startcontainer");
+var score = 0;
+var questionIndex = 0;
+var startBtn = document.getElementById("startbtn");
+var submitBtn = document.getElementById("sumbitbtn");
+var restartBtn = document.getElementById("restartbtn");
+var backBtn = document.getElementById("backbtn");
+
+var questionDiv = document.getElementById("quizContainer");
+var questionTitle = document.getElementById("questionTitle");
+var answer1 = document.getElementById("btn1");
+var answer2 = document.getElementById("btn2");
+var answer3 = document.getElementById("btn3");
+var answer4 = document.getElementById("btn4");
+var answerCheck = document.getElementById("answerCheck");
+
+var timeLeft = document.getElementById("timeLeft");
+var secsLeft = 75;
+var timer = document.getElementById("timer");
+var timesOver = document.getElementById("timesover")
+
+var highscores = document.getElementById("highscores");
+var viewHighScore = document.getElementById("get-score");
+var scoreList = document.getElementById("scoreList");
+
+var summary = document.getElementById("summary");
+var finalScore = document.getElementById("finalScore");
+var initials = document.getElementById("initials");
+
+var correctAns = 0;
+var questionNum = 0;
+var scoreResult = 0;
+var questionIndex = 0;
+var questionRandom;
+
+// Show the initial screen
+homeScreen();
+function homeScreen() {
+startContainer.style.display = "block"
+summary.style.display = "none"
+highscores.style.display = "none"
+questionDiv.style.display = "none"
+timesOver.style.display = "none"
+}
+
+//newquiz function for the timer to start and quiz to begin
+function newQuiz() {
+questionIndex = 0;
+scoreResult = 0;
+secsLeft = 75;
+timeLeft.textContent = secsLeft;
+initials.textContent = "";
+startContainer.style.display = "none";
+summary.style.display = "none";
+questionDiv.style.display = "block";
+
+var timerCount = setInterval(function() {
+  secsLeft--;
+  timeLeft.textContent = secsLeft;
+  if (secsLeft === 0) {
+      console.log("timer")
+      clearInterval(secsLeft);
+      clearInterval(timerCount);
+      timesOver.style.display = "block";
+      timer.style.display = "none";
+      timeLeft.style.display = "none";
+      gameOver();
+  }
+}, 1000);
+
+showQuiz();
+}
+
+function showQuiz() {
+nextQuestion();
+console.log("working")
+}
+
+// Show questions
+function nextQuestion() {
+questionTitle.textContent = questions[questionIndex].question;
+answer1.textContent = questions[questionIndex].choices[0];
+answer2.textContent = questions[questionIndex].choices[1];
+answer3.textContent = questions[questionIndex].choices[2];
+answer4.textContent = questions[questionIndex].choices[3];
+}
+
+// Check answers
+function checkAns(answer) {
+if (questions[questionIndex].answer === questions[questionIndex].choices[answer]) {
+  scoreResult++;
+  answerCheck.textContent = "Correct"
+  answerCheck.style.color = "green";
+  console.log("corr")
+} else {
+  secsLeft -= 5;
+  answerCheck.textContent = "Incorrect";
+  answerCheck.style.color = "red";
+  console.log("incorr")
+}
+questionIndex++;
+if (questionIndex < questions.length) {
+  nextQuestion();
+} else {
+  gameOver();
+  timesOver.style.display = "block"
+  timer.style.display = "none";
+  timeLeft.style.display = "none"
+}
+if (secsLeft === 0) {
+  gameOver();
+}
+}
+
+// Display answers
+function choose0() { checkAns(0) };
+
+function choose1() { checkAns(1) };
+
+function choose2() { checkAns(2) };
+
+function choose3() { checkAns(3) };
+
+// Display score
+function gameOver() {
+console.log("jkjkjkkjkj")
+startContainer.style.display = "none";
+summary.style.display = "block";
+highscores.style.display = "none";
+questionDiv.style.display = "none";
+timer.style.display = "none";
+timesOver.style.display = "block";
+finalScore.textContent = scoreResult
+}
+
+// Save to local storage.
+function storeScores(event) {
+event.preventDefault();
+
+var storeHighScore = localStorage.getItem("high scores");
+var arrayScores;
+if (!storeHighScore) {
+  arrayScores = [];
+} else {
+  arrayScores = JSON.parse(storeHighScore)
+}
+var userScore = {
+  initials: initials.value,
+  score: finalScore.textContent
 };
+console.log(userScore)
+arrayScores.push(userScore);
 
-// All questions
-var questions = [
-  question1,
-  question2,
-  question3,
-  question4,
-  question5,
-];
+var scoreString = JSON.stringify(arrayScores);
+window.localStorage.setItem("high scores", scoreString);
 
-// P
-var pEl = document.createElement("p");
-
-// Seconds
-var seconds;
-
-// Start the quiz from the start button
-function startQuiz() {
-  startButton.style.display = "none";
-  heading.textContent = "";
-  var storedHighscores = JSON.parse(localStorage.getItem("highscores"));
-  if (storedHighscores !== null) {
-    highscores = storedHighscores;
-  }
-
-  // Start timer and change view
-  startTimer();
-  renderView();
+showScore();
 }
 
-// Show questions and options
-function renderView() {
-  answerFeedback.textContent = "";
-  var same = true;
+var i = 0
 
-  // Chooses a random question
-  if (lastQuestion.length === 0) {
-    currentQuestion = Math.floor(Math.random() * questions.length);
-    lastQuestion[0] = currentQuestion;
-  } else {
+function showScore() {
+startContainer.style.display = "none";
+summary.style.display = "none";
+highscores.style.display = "block";
+questionDiv.style.display = "none";
+timesOver.style.display = "none";
+timer.style.display = "none";
+var saveScore = localStorage.getItem("high scores");
+if (saveScore === null) {
+  return;
+}
+console.log(scoreList)
+var storeHighScore = JSON.parse(saveScore);
 
-    // Chooses a question from array and checks if been used
-    while (same) {
-      currentQuestion = Math.floor(Math.random() * questions.length);
-      if (lastQuestion.includes(currentQuestion)) {
-        same = true;
-      } else {
-        lastQuestion.push(currentQuestion);
-        same = false;
-      }
-    }
-  }
-  subheading.textContent = questions[currentQuestion].question;
+for (; i < storeHighScore.length; i++) {
+  var newScore = document.createElement("p");
+  newScore.innerHTML = storeHighScore[i].initials + " - Score:" + storeHighScore[i].score;
 
-  //creates 'li' and 'a' for all choices
-  createOptions(currentQuestion);
+  scoreList.appendChild(newScore);
+}
 }
 
-// Clear all text and tables.
-function clearView() {
-  heading.textContent = "";
-  subheading.textContent = "";
-  pEl.textContent = "";
-  resultsTable.textContent = "";
-  viewHighscores.textContent = "";
-  timer.textContent = "";
-  nameInput.textContent = "";
-  if (optionA[0] !== undefined) {
-    for (let j = 0; j < optionA.length; j++) {
-      optionA[j].textContent = "";
-    }
-  }
-}
-
-// Create list of answers
-function createOptions(currentQuestion) {
-
-  //check if first question then generates or changes value
-  if (doneCount === 0) {
-    for (let z = 0; z < 4; z++) {
-      var currentOption = "option" + z;
-      optionLi[z] = document.createElement("li");
-      optionA[z] = document.createElement("a");
-      optionA[z].setAttribute("data-option", z);
-      optionA[z].setAttribute("href", "#");
-      optionA[z].textContent = questions[currentQuestion][currentOption];
-      options.appendChild(optionLi[z]);
-      optionLi[z].appendChild(optionA[z]);
-    }
-  } else {
-    for (let j = 0; j < 4; j++) {
-      var currentOption = "option" + j;
-      optionA[j].textContent = questions[currentQuestion][currentOption];
-    }
-  }
-}
-
-// Start and stop timer
-function startTimer() {
-  var timerInterval = setInterval(function () {
-    console.log(stopTimer);
-    if (stopTimer !== true) {
-      if (seconds > 0) {
-        seconds--;
-        timer.textContent = "Timer: " + seconds;
-      } else {
-
-        //if time runs out then run outOfTime
-        clearInterval(timerInterval);
-        outOfTime();
-      }
-    } else if (stopTimer === true) {
-      timer.textContent = "";
-      clearInterval(timerInterval);
-    }
-  }, 1000);
-}
-
-// Displays the highscores
-function displayResults() {
-  clearView();
-  viewHighscores.style.display = "none";
-  for (let i = 0; i < highscores.length; i++) {
-    var liEl = document.createElement("li");
-    liEl.textContent = highscores[i];
-    resultsTable.appendChild(liEl);
-  }
-  subheading.textContent = "Highscores";
-  resultsDisplay.classList.remove("hide");
-}
-
-// Shows final score and updates highscores
-function postResults(name) {
-  formInput.classList.add("hide");
-  highscores.unshift(name + " - " + finalScore);
-  localStorage.setItem("highscores", JSON.stringify(highscores));
-  displayResults();
-}
-
-// User is prompted to enter name and save score
-function quizComplete() {
-  stopTimer = true;
-  clearView();
-  while (options.firstChild) {
-    options.removeChild(options.firstChild);
-  }
-  finalScore = seconds;
-  subheading.textContent = "Quiz complete!";
-  pEl.textContent = "Your score is " + finalScore;
-  subheading.appendChild(pEl);
-  formInput.classList.remove("hide");
-}
-
-// Check answer
-function checkAnswer(selected) {
-  var chosenOption = "option" + selected;
-
-  // Next question or end quiz
-  if (chosenOption === questions[currentQuestion].rightOption) {
-    doneCount++;
-    if (doneCount < questions.length) {
-      renderView();
-    } else {
-      quizComplete();
-    }
-  } else if (chosenOption !== questions[currentQuestion].rightOption) {
-
-    // Wrong answer penalty
-    seconds = seconds - 5;
-    answerFeedback.textContent = "Oh dear...";
-  }
-}
-
-//outOfTime function
-function outOfTime() {
-  clearView();
-  while (options.firstChild) {
-    options.removeChild(options.firstChild);
-  }
-  timer.textContent = "Time is up";
-  subheading.textContent = "Sorry you ran out of time. Better luck next time";
-  resultsDisplay.classList.remove("hide");
-  clearButton.style.display = "none";
-}
-
-// Main view
-function initialRender() {
-  heading.textContent = "Try your luck: Coding Quiz";
-  subheading.textContent =
-    "Each wrong answer will deduct 5 seconds from your time! the more time left, the higher the score... Good luck!";
-  startButton.style.display = "block";
-  clearButton.style.display = "inline-block";
-  answerFeedback.textContent = "";
-  nameInput.textContent = "";
-  timer.textContent = "Timer: " + seconds;
-  viewHighscores.style.display = "inline-block";
-  viewHighscores.textContent = "Highscores";
-  resultsDisplay.classList.add("hide");
-}
-
-//clear highscore
-function clearHighscores() {
-  localStorage.clear();
-  highscores = [];
-  while (resultsTable.firstChild) {
-    resultsTable.removeChild(resultsTable.firstChild);
-  }
-}
-
-// Start
-function init() {
-  doneCount = 0;
-  seconds = 75;
-  lastQuestion = [];
-  stopTimer = false;
-  initialRender();
-}
-
-// View highscore
-viewHighscores.addEventListener("click", function (event) {
-  stopTimer = true;
-  startButton.style.display = "none";
-  while (options.firstChild) {
-    options.removeChild(options.firstChild);
-  }
-  displayResults();
+//addEventListeners
+startBtn.addEventListener("click", newQuiz);
+answer1.addEventListener("click", choose0);
+answer2.addEventListener("click", choose1);
+answer3.addEventListener("click", choose2);
+answer4.addEventListener("click", choose3);
+submitBtn.addEventListener("click", function(event) {
+storeScores(event)
 });
 
-// CLick clear
-clearButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  clearHighscores();
+// Restart the quiz.
+restartBtn.addEventListener("click", function() {
+startContainer.style.display = "block";
+highscores.style.display = "none";
 });
 
-// CLick back
-backButton.addEventListener("click", init);
-
-//event listener for choices
-options.addEventListener("click", function (e) {
-  var node = e.target;
-  if (node && node.nodeName == "A") {
-    check = checkAnswer(node.dataset.option);
-  }
+// View highscores.
+viewHighScore.addEventListener("click", function(event) {
+showScore(event)
 });
 
-// Click add highscore
-submitButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  var nameText = nameInput.value.trim();
-  if (nameText === "") {
-    window.alert("Please enter your name");
-  } else {
-    postResults(nameText);
-  }
-});
-
-//event listener on the start button
-startButton.addEventListener("click", startQuiz);
-
-//initialise the quiz when the JS finished loading
-init();
+// Return to quiz.
+backBtn.addEventListener("click", function() {
+startContainer.style.display = "block";
+highscores.style.display = "none";
+})
